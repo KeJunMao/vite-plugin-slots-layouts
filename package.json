@@ -1,5 +1,5 @@
 {
-  "name": "vite-plugin-uni-layout",
+  "name": "vite-plugin-slots-layouts",
   "type": "module",
   "version": "0.0.1",
   "packageManager": "pnpm@7.12.1",

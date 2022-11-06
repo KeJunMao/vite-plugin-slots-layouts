@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import Vue from "@vitejs/plugin-vue";
-import Layout from "vite-plugin-uni-layout";
+import Layout from "vite-plugin-slots-layouts";
 import Pages from "vite-plugin-pages";
 
 // https://vitejs.dev/config/
