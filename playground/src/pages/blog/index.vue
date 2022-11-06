@@ -1,1 +1,3 @@
-<template>blog</template>
+<template>blog page</template>
+
+<layout name="blog"></layout>
