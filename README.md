@@ -43,6 +43,34 @@ app.use(layouts);
 
 see [types.ts](./src/types.ts)
 
+## Layout Block
+
+Use layout-block to set the layout configuration of the page
+
+```vue
+<layout name="blog" disabled>
+  {
+    "isPost": false
+  }
+</layout>
+```
+
+### props
+
+- `name`: set layout
+- `disabled`: disabled layout
+
+### content
+
+> **Warning**
+> this is todo
+
+the content is JSON string, value to set layout props
+
+```html
+<BlogLayout isPost="false"></BlogLayout>
+```
+
 ## How it works
 
 Registration layout dirs components

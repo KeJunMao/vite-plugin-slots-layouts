@@ -43,6 +43,34 @@ app.use(layouts);
 
 查看 [types.ts](./src/types.ts)
 
+## 布局块
+
+使用布局块可以设置页面的布局配置
+
+```vue
+<layout name="blog" disabled>
+  {
+    "isPost": false
+  }
+</layout>
+```
+
+### 属性
+
+- `name`: 设置布局
+- `disabled`: 禁用布局
+
+### 内容
+
+> **Warning**
+> 这个还没写好
+
+内容是 JSON 字符串，用于设置布局属性的值
+
+```html
+<BlogLayout isPost="false"></BlogLayout>
+```
+
 ## 原理
 
 注册 layout 文件夹的组件

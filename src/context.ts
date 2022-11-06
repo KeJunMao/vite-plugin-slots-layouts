@@ -54,7 +54,7 @@ export default {
       if (v.tag === "layout") {
         v.props.forEach((prop) => {
           if (prop.name === "name" && prop.type === 6) {
-            layoutName = prop.value?.content ?? "default";
+            layoutName = prop.value?.content ?? this.options.layouts.layout;
           }
           if (prop.name === "disabled") {
             layoutName = false;
