@@ -1,10 +1,25 @@
 export interface LayoutsOptions {
+  /**
+   * @default "default"
+   */
   layout: string;
+  /**
+   * @default ["src/layouts"]
+   */
   dirs: string[];
+  /**
+   * @default []
+   */
   exclude: string[];
 }
 export interface PagesOptions {
+  /**
+   * @default ["src\/pages\/**\/*.vue"]
+   */
   include: string[];
+  /**
+   * @default []
+   */
   exclude: string[];
 }
 
@@ -25,4 +40,3 @@ export interface LayoutComponent {
   name: string;
   layout: string;
 }
-
