@@ -1,8 +1,7 @@
-import { ResolvedConfig } from "vite";
+import { ResolvedConfig,normalizePath } from "vite";
 import { scanLayouts } from "./scan";
 import {
   LayoutComponent,
-  PageComponent,
   ResolvedOptions,
   UserOptions,
 } from "./types";
@@ -25,7 +24,7 @@ export class Context {
   async virtualModule() {
     await this.initLayouts();
     const imports = this.layouts.map((v) => {
-      return `import ${v.name} from "${v.path}"`;
+      return `import ${v.name} from "${normalizePath(v.path)}"`;
     });
     const components = this.layouts.map((v) => {
       return `app.component("${v.name}", ${v.name})`;
@@ -97,11 +96,14 @@ export default {
 ${templates.join("\n")}
 </${layout.name}>
 </template>`);
-    const map = source.generateMap();
+    const map = source.generateMap({
+      source: id,
+      file: `${id}.map`,
+      includeContent: true,
+    });
     return {
       code: source.toString(),
       map,
-      // map
     };
   }
 }

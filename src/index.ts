@@ -1,7 +1,7 @@
 import { ModuleNode, Plugin, createFilter } from "vite";
 import { resolvedVirtualModuleId, virtualModuleId } from "./constant";
 import { Context } from "./context";
-import { PageComponent, UserOptions } from "./types";
+import { UserOptions } from "./types";
 
 export const VitePluginUniLayout = (userOptions: UserOptions = {}): Plugin => {
   const ctx = new Context(userOptions);
@@ -27,7 +27,6 @@ export const VitePluginUniLayout = (userOptions: UserOptions = {}): Plugin => {
       };
       const updateVirtualModule = () => {
         const module = moduleGraph.getModuleById(resolvedVirtualModuleId);
-
         reloadModule(module);
       };
       watcher.on("add", () => {
