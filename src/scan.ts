@@ -3,7 +3,7 @@ import fg from "fast-glob";
 import { basename, dirname, extname, join, relative, resolve } from "path";
 import { pascalCase, splitByCase, camelCase } from "scule";
 import { logger } from "./utils";
-import { blue, green } from "colorette";
+import { blue, green, red } from "colorette";
 
 export const scanLayouts = async (
   layoutsOptions: LayoutsOptions,
@@ -22,12 +22,30 @@ export const scanLayouts = async (
     files.sort();
     for (let file of files) {
       const filePath = join(dir, file);
+
+      // dir parts
+      const dirNameParts = splitByCase(relative(dir, dirname(filePath)));
+
       let fileName = basename(filePath, extname(filePath));
       if (fileName.toLowerCase() === "index") {
         fileName = basename(dirname(filePath));
       }
+
       const fileNameParts = splitByCase(fileName);
-      const componentName = pascalCase(fileNameParts);
+
+      const componentNameParts: string[] = [];
+
+      while (
+        dirNameParts.length &&
+        (dirNameParts[0] || "").toLowerCase() !==
+          (fileNameParts[0] || "").toLowerCase()
+      ) {
+        componentNameParts.push(dirNameParts.shift()!);
+      }
+
+      const componentName =
+        pascalCase(componentNameParts) + pascalCase(fileNameParts);
+
       const layoutName = camelCase(componentName);
       const isExistsLayout = layouts.find((l) => l.layout === layoutName);
       if (isExistsLayout) {
