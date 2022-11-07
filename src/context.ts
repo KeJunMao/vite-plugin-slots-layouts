@@ -1,13 +1,10 @@
-import { ResolvedConfig,normalizePath } from "vite";
+import { ResolvedConfig, normalizePath } from "vite";
 import { scanLayouts } from "./scan";
-import {
-  LayoutComponent,
-  ResolvedOptions,
-  UserOptions,
-} from "./types";
-import { resolveOptions } from "./utils";
-import { parse } from "@vue/compiler-dom";
+import { LayoutComponent, ResolvedOptions, UserOptions } from "./types";
+import { logger, resolveOptions } from "./utils";
+import { NodeTypes, parse } from "@vue/compiler-dom";
 import MagicString from "magic-string";
+import { blue, red } from "colorette";
 
 export class Context {
   options: ResolvedOptions;
@@ -23,6 +20,7 @@ export class Context {
   }
   async virtualModule() {
     await this.initLayouts();
+    logger.debug(`Generating virtual module`);
     const imports = this.layouts.map((v) => {
       return `import ${v.name} from "${normalizePath(v.path)}"`;
     });
@@ -54,23 +52,26 @@ export default {
         v.props.forEach((prop) => {
           if (prop.name === "name" && prop.type === 6) {
             layoutName = prop.value?.content ?? this.options.layouts.layout;
+            logger.debug(`Page ${id} used ${blue(`${layoutName}`)} layout`)
           }
           if (prop.name === "disabled") {
+            logger.debug(`Page ${id} ${red('disabled')} layout, ignore`)
             layoutName = false;
           }
         });
-        const content = v.children?.[0];
-        if (content && content.type === 2) {
-          const rawLayoutProps = content.content || "{}";
-          try {
-            layoutProps = {
-              ...layoutProps,
-              ...JSON.parse(rawLayoutProps),
-            };
-          } catch (error) {
-            console.log(error);
-          }
-        }
+        // TODO: generator layout component props
+        // const content = v.children?.[0];
+        // if (content && content.type === 2) {
+        //   const rawLayoutProps = content.content || "{}";
+        //   try {
+        //     layoutProps = {
+        //       ...layoutProps,
+        //       ...JSON.parse(rawLayoutProps),
+        //     };
+        //   } catch (error) {
+        //     console.log(error);
+        //   }
+        // }
       }
       if (v.tag === "template") {
         source.replace(v.loc.source, "");
@@ -88,9 +89,9 @@ export default {
     }
     const layout = this.layouts.find((l) => l.layout === layoutName);
     if (!layout) {
+      logger.warn(`Can not find ${red(layoutName)} layout, ignore`)
       return false;
     }
-
     source.prepend(`<template>
 <${layout.name}>
 ${templates.join("\n")}

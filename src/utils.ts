@@ -1,4 +1,5 @@
 import { UserOptions, ResolvedOptions } from "./types";
+import consola from "consola";
 
 export const resolveOptions = (userOptions: UserOptions): ResolvedOptions => {
   return {
@@ -15,3 +16,9 @@ export const resolveOptions = (userOptions: UserOptions): ResolvedOptions => {
     },
   };
 };
+
+export const logger = consola.create({
+  defaults: {
+    tag: "vite-plugin-slots-layouts",
+  },
+})

@@ -34,6 +34,7 @@
   "scripts": {
     "build": "unbuild",
     "dev": "unbuild --stub",
+    "play": "nr -C playground dev",
     "prepublishOnly": "pnpm build",
     "release": "bumpp && npm publish",
     "start": "esno src/index.ts",
@@ -50,6 +51,8 @@
   },
   "dependencies": {
     "@vue/compiler-dom": "^3.2.41",
+    "colorette": "^2.0.19",
+    "consola": "^2.15.3",
     "fast-glob": "^3.2.12",
     "magic-string": "^0.26.7",
     "scule": "^0.3.2"

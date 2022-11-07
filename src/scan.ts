@@ -2,11 +2,14 @@ import { LayoutComponent, LayoutsOptions } from "./types";
 import fg from "fast-glob";
 import { basename, dirname, extname, join, relative, resolve } from "path";
 import { pascalCase, splitByCase, camelCase } from "scule";
+import { logger } from "./utils";
+import { blue, green } from "colorette";
 
 export const scanLayouts = async (
   layoutsOptions: LayoutsOptions,
   cwd = process.cwd()
 ) => {
+  logger.debug(`Scan layouts dirs: ${blue(`${layoutsOptions.dirs}`)}`);
   const layouts: LayoutComponent[] = [];
 
   for (let dir of layoutsOptions.dirs) {
@@ -26,10 +29,20 @@ export const scanLayouts = async (
       const fileNameParts = splitByCase(fileName);
       const componentName = pascalCase(fileNameParts);
       const layoutName = camelCase(componentName);
-      if (layouts.find((l) => l.layout === layoutName)) {
-        console.warn("ignore", filePath);
+      const isExistsLayout = layouts.find((l) => l.layout === layoutName);
+      if (isExistsLayout) {
+        logger.warn(
+          `The ${blue(layoutName)} layout is exists, ignore\nExists:  ${
+            isExistsLayout.path
+          } ${green("(used)")}\nScanned: ${filePath}`
+        );
         continue;
       }
+      logger.debug(
+        `Found ${blue(`<${componentName} />`)}, append ${blue(
+          layoutName
+        )} layout`
+      );
       layouts.push({
         name: componentName + "Layout",
         path: filePath,
@@ -37,6 +50,5 @@ export const scanLayouts = async (
       });
     }
   }
-
   return layouts;
 };
