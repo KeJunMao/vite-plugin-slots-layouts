@@ -1,3 +1,4 @@
+import { resolve } from "path";
 import { ModuleNode, Plugin, createFilter } from "vite";
 import { resolvedVirtualModuleId, virtualModuleId } from "./constant";
 import { Context } from "./context";
@@ -13,7 +14,10 @@ export const VitePluginUniLayout = (userOptions: UserOptions = {}): Plugin => {
       ctx.initLayouts();
     },
     configureServer({ watcher, ws, moduleGraph }) {
-      watcher.add(ctx.options.layouts.dirs);
+      const dirs = ctx.options.layouts.dirs.map((dir) =>
+        resolve(ctx.config.root, dir)
+      );
+      watcher.add(dirs);
       const reloadModule = (module: ModuleNode | undefined, path = "*") => {
         if (module) {
           moduleGraph.invalidateModule(module);

@@ -15,13 +15,3 @@ export const resolveOptions = (userOptions: UserOptions): ResolvedOptions => {
     },
   };
 };
-
-// export function resolveOptions(userOptions: UserOptions): ResolvedOptions {
-//   return Object.assign(
-//     {
-//       dir: "src/layouts",
-//       layout: "default",
-//     },
-//     userOptions
-//   );
-// }
