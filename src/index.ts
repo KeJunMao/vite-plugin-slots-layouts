@@ -5,11 +5,11 @@ import { Context } from "./context";
 import { UserOptions } from "./types";
 import { logger } from "./utils";
 
-export const VitePluginUniLayout = (userOptions: UserOptions = {}): Plugin => {
+const VitePluginSlotsLayouts = (userOptions: UserOptions = {}): Plugin => {
   logger.debug(`Create Layout content`);
   const ctx = new Context(userOptions);
   return {
-    name: "vite-plugin-uni-layout",
+    name: "vite-plugin-slots-layouts",
     enforce: "pre",
     configResolved(_config) {
       ctx.config = _config;
@@ -75,4 +75,4 @@ export const VitePluginUniLayout = (userOptions: UserOptions = {}): Plugin => {
   };
 };
 
-export default VitePluginUniLayout;
+export default VitePluginSlotsLayouts;
