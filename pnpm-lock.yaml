@@ -11,6 +11,7 @@ importers:
       consola: ^2.15.3
       esno: ^0.16.3
       fast-glob: ^3.2.12
+      jsonc-parser: ^3.2.0
       magic-string: ^0.26.7
       scule: ^0.3.2
       typescript: ^4.8.4
@@ -22,6 +23,7 @@ importers:
       colorette: 2.0.19
       consola: 2.15.3
       fast-glob: 3.2.12
+      jsonc-parser: 3.2.0
       magic-string: 0.26.7
       scule: 0.3.2
     devDependencies:
@@ -1705,7 +1707,6 @@ packages:
 
   /jsonc-parser/3.2.0:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
-    dev: true
 
   /jsonfile/6.1.0:
     resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==}

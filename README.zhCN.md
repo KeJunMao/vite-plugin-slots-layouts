@@ -45,13 +45,15 @@ app.use(layouts);
 
 ## 布局块
 
-使用布局块可以设置页面的布局配置
+使用布局块可以设置页面的布局
 
 ```vue
-<layout name="blog" disabled>
-  {
-    "isPost": false
-  }
+<layout name="blog" disabled lang="jsonc">
+{
+  ":isPost": false,
+  "v-bind": "obj",
+  "@change": "handleLayoutChange"
+}
 </layout>
 ```
 
@@ -62,13 +64,14 @@ app.use(layouts);
 
 ### 内容
 
-> **Warning**
-> 这个还没写好
+内容是 JSON 字符串, 可以使用 Vue 支持的模板语法
 
-内容是 JSON 字符串，用于设置布局属性的值
-
-```html
-<BlogLayout isPost="false"></BlogLayout>
+```vue
+<BlogLayout
+  :isPost="false"
+  v-bind="obj"
+  @change="handleLayoutChange"
+></BlogLayout>
 ```
 
 ## 原理

@@ -1,6 +1,6 @@
 # vite-plugin-slots-layouts
 
-Slots-based layout for Vue 3 applications using Vite
+**WIP** Slots-based layout for Vue 3 applications using Vite
 
 English | [简体中文](./README.zhCN.md)
 
@@ -48,10 +48,12 @@ see [types.ts](./src/types.ts)
 Use layout-block to set the layout configuration of the page
 
 ```vue
-<layout name="blog" disabled>
-  {
-    "isPost": false
-  }
+<layout name="blog" disabled lang="jsonc">
+{
+  ":isPost": false,
+  "v-bind": "obj",
+  "@change": "handleLayoutChange"
+}
 </layout>
 ```
 
@@ -62,13 +64,14 @@ Use layout-block to set the layout configuration of the page
 
 ### content
 
-> **Warning**
-> this is todo
+The content is JSON string, you can use the template syntax supported by Vue.
 
-the content is JSON string, value to set layout props
-
-```html
-<BlogLayout isPost="false"></BlogLayout>
+```vue
+<BlogLayout
+  :isPost="false"
+  v-bind="obj"
+  @change="handleLayoutChange"
+></BlogLayout>
 ```
 
 ## How it works
