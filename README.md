@@ -27,7 +27,7 @@ In main.ts, import the generated code and call `app.use()`
 ```ts
 // main.ts
 import App from "./App.vue";
-import layouts from "virtual:uni-layout";
+import layouts from "virtual:slots-layouts";
 const app = createApp(App);
 
 app.use(layouts);

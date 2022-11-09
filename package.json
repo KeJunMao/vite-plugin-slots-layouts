@@ -6,12 +6,12 @@
   "description": "",
   "author": "KeJun",
   "license": "MIT",
-  "homepage": "https://github.com/kejunmao/vite-plugin-uni-layout#readme",
+  "homepage": "https://github.com/kejunmao/vite-plugin-slots-layouts#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kejunmao/vite-plugin-uni-layout.git"
+    "url": "git+https://github.com/kejunmao/vite-plugin-slots-layouts.git"
   },
-  "bugs": "https://github.com/kejunmao/vite-plugin-uni-layout/issues",
+  "bugs": "https://github.com/kejunmao/vite-plugin-slots-layouts/issues",
   "keywords": [],
   "sideEffects": false,
   "exports": {
@@ -54,6 +54,7 @@
     "colorette": "^2.0.19",
     "consola": "^2.15.3",
     "fast-glob": "^3.2.12",
+    "jsonc-parser": "^3.2.0",
     "magic-string": "^0.26.7",
     "scule": "^0.3.2"
   }
