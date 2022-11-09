@@ -24,8 +24,19 @@ export interface PagesOptions {
 }
 
 export interface Options {
+  /**
+   * Layout options
+   */
   layouts: LayoutsOptions;
+  /**
+   * pages options
+   */
   pages: PagesOptions;
+  /**
+   * Layout components prefix
+   * @default "layout"
+   */
+  LayoutComponentPrefix: string;
 }
 
 export interface UserOptions {
@@ -36,7 +47,8 @@ export interface UserOptions {
 export interface ResolvedOptions extends Options {}
 
 export interface LayoutComponent {
+  pascalName: string;
+  kebabName: string;
   path: string;
-  name: string;
   layout: string;
 }

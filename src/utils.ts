@@ -16,6 +16,7 @@ export const resolveOptions = (userOptions: UserOptions): ResolvedOptions => {
       layout: "default",
       ...userOptions.layouts,
     },
+    LayoutComponentPrefix: "layout",
   };
 };
 

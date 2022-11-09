@@ -1,15 +1,17 @@
-import { LayoutComponent, LayoutsOptions } from "./types";
+import { LayoutComponent, LayoutsOptions, ResolvedOptions } from "./types";
 import fg from "fast-glob";
 import { basename, dirname, extname, join, relative, resolve } from "path";
 import { pascalCase, splitByCase, camelCase } from "scule";
 import { logger } from "./utils";
 import { blue, green, red } from "colorette";
 import { normalizePath } from "vite";
+import { hyphenate } from "@vue/shared";
 
 export const scanLayouts = async (
-  layoutsOptions: LayoutsOptions,
+  options: ResolvedOptions,
   cwd = process.cwd()
 ) => {
+  const layoutsOptions = options.layouts;
   logger.debug(`Scan layouts dirs: ${blue(`${layoutsOptions.dirs}`)}`);
   const layouts: LayoutComponent[] = [];
 
@@ -25,9 +27,10 @@ export const scanLayouts = async (
       const filePath = join(dir, file);
 
       // dir parts
-      const dirNameParts = splitByCase(
-        normalizePath(relative(dir, dirname(filePath)))
-      );
+      const dirNameParts = [
+        ...splitByCase(options.LayoutComponentPrefix),
+        ...splitByCase(normalizePath(relative(dir, dirname(filePath)))),
+      ];
 
       let fileName = basename(filePath, extname(filePath));
       if (fileName.toLowerCase() === "index") {
@@ -46,14 +49,17 @@ export const scanLayouts = async (
         componentNameParts.push(dirNameParts.shift()!);
       }
 
+      console.log(dirNameParts, componentNameParts, fileNameParts);
+
       const componentName =
         pascalCase(componentNameParts) + pascalCase(fileNameParts);
 
-      const layoutName = camelCase(componentName);
-      const isExistsLayout = layouts.find((l) => l.layout === layoutName);
+      const pascalName = pascalCase(componentName).replace(/["']/g, "");
+      const kebabName = hyphenate(componentName);
+      const isExistsLayout = layouts.find((l) => l.kebabName === kebabName);
       if (isExistsLayout) {
         logger.warn(
-          `The ${blue(layoutName)} layout is exists, ignore\nExists:  ${
+          `The ${blue(pascalName)} layout is exists, ignore\nExists:  ${
             isExistsLayout.path
           } ${green("(used)")}\nScanned: ${filePath}`
         );
@@ -61,13 +67,14 @@ export const scanLayouts = async (
       }
       logger.debug(
         `Found ${blue(`<${componentName} />`)}, append ${blue(
-          layoutName
+          pascalName
         )} layout`
       );
-      const layout = {
-        name: componentName + "Layout",
+      const layout: LayoutComponent = {
+        pascalName,
+        kebabName,
         path: filePath,
-        layout: camelCase(componentName),
+        layout: camelCase(kebabName.replace(options.LayoutComponentPrefix, "")),
       };
       logger.debug(layout);
       layouts.push(layout);

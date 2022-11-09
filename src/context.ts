@@ -16,7 +16,7 @@ export class Context {
   }
 
   async initLayouts() {
-    this.layouts = await scanLayouts(this.options.layouts, this.config.root);
+    this.layouts = await scanLayouts(this.options, this.config.root);
   }
   async virtualModule() {
     await this.initLayouts();
@@ -24,9 +24,9 @@ export class Context {
     let imports: string[] = [];
     let components: string[] = [];
     const _exports = this.layouts.map((v) => {
-      imports.push(`import ${v.name} from "${normalizePath(v.path)}"`);
-      components.push(`app.component("${v.name}", ${v.name})`);
-      return `${v.name},`;
+      imports.push(`import ${v.pascalName} from "${normalizePath(v.path)}"`);
+      components.push(`app.component("${v.kebabName}", ${v.pascalName})`);
+      return `${v.pascalName},`;
     });
     return `${imports.join("\n")}
 
@@ -99,9 +99,9 @@ export default {
       (key) => `${key}="${layoutProps[key]}"`
     );
     source.prepend(`<template>
-<${layout.name} ref="layout" ${props.join(" ")} >
+<${layout.kebabName} ref="layout" ${props.join(" ")} >
 ${templates.join("\n")}
-</${layout.name}>
+</${layout.kebabName}>
 </template>`);
     const map = source.generateMap({
       source: id,
