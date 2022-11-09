@@ -1,6 +1,11 @@
-# vite-plugin-slots-layouts
+<p align="center">
+  <img width="200" src="./assets/logo.svg" alt="logo of vite-plugin-slots-layouts repository">
+</p>
 
-**WIP** Slots-based layout for Vue 3 applications using Vite
+<h2 align='center'>vite-plugin-slots-layouts</h2>
+
+<p align="center">Slots-based layout for Vue 3 applications using Vite. <strong>WIP</strong>
+</p>
 
 English | [简体中文](./README.zhCN.md)
 

@@ -1,6 +1,11 @@
-# vite-plugin-slots-layouts
+<p align="center">
+  <img width="200" src="./assets/logo.svg" alt="logo of vite-plugin-slots-layouts repository">
+</p>
 
-Vite 中 Vue 3 的基于插槽的布局系统
+<h2 align='center'>vite-plugin-slots-layouts</h2>
+
+<p align="center">Vite 中 Vue 3 的基于插槽的布局系统 <strong>WIP</strong>
+</p>
 
 [English](./README.md) | 简体中文
 
