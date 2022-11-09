@@ -4,6 +4,7 @@ import { basename, dirname, extname, join, relative, resolve } from "path";
 import { pascalCase, splitByCase, camelCase } from "scule";
 import { logger } from "./utils";
 import { blue, green, red } from "colorette";
+import { normalizePath } from "vite";
 
 export const scanLayouts = async (
   layoutsOptions: LayoutsOptions,
@@ -24,7 +25,7 @@ export const scanLayouts = async (
       const filePath = join(dir, file);
 
       // dir parts
-      const dirNameParts = splitByCase(relative(dir, dirname(filePath)));
+      const dirNameParts = splitByCase(normalizePath(relative(dir, dirname(filePath))));
 
       let fileName = basename(filePath, extname(filePath));
       if (fileName.toLowerCase() === "index") {
@@ -61,11 +62,13 @@ export const scanLayouts = async (
           layoutName
         )} layout`
       );
-      layouts.push({
+      const layout = {
         name: componentName + "Layout",
         path: filePath,
         layout: camelCase(componentName),
-      });
+      };
+      logger.debug(layout);
+      layouts.push(layout);
     }
   }
   return layouts;
