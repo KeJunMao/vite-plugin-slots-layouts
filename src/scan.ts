@@ -25,7 +25,9 @@ export const scanLayouts = async (
       const filePath = join(dir, file);
 
       // dir parts
-      const dirNameParts = splitByCase(normalizePath(relative(dir, dirname(filePath))));
+      const dirNameParts = splitByCase(
+        normalizePath(relative(dir, dirname(filePath)))
+      );
 
       let fileName = basename(filePath, extname(filePath));
       if (fileName.toLowerCase() === "index") {

@@ -9,7 +9,7 @@ import { parse as JSONParse } from "jsonc-parser";
 export class Context {
   options: ResolvedOptions;
   config!: ResolvedConfig;
-  layouts!: LayoutComponent[];
+  layouts: LayoutComponent[] = [];
 
   constructor(userOptions: UserOptions) {
     this.options = resolveOptions(userOptions);
@@ -21,13 +21,18 @@ export class Context {
   async virtualModule() {
     await this.initLayouts();
     logger.debug(`Generating virtual module`);
-    const imports = this.layouts.map((v) => {
-      return `import ${v.name} from "${normalizePath(v.path)}"`;
-    });
-    const components = this.layouts.map((v) => {
-      return `app.component("${v.name}", ${v.name})`;
+    let imports: string[] = [];
+    let components: string[] = [];
+    const _exports = this.layouts.map((v) => {
+      imports.push(`import ${v.name} from "${normalizePath(v.path)}"`);
+      components.push(`app.component("${v.name}", ${v.name})`);
+      return `${v.name},`;
     });
     return `${imports.join("\n")}
+
+export const layouts = {
+  ${_exports.join("\n")}
+}
 
 export default {
   install(app) {
@@ -90,9 +95,11 @@ export default {
       logger.warn(`Can not find ${red(layoutName)} layout, ignore`);
       return false;
     }
-    const props = Object.keys(layoutProps).map((key) => `${key}="${layoutProps[key]}"`)
+    const props = Object.keys(layoutProps).map(
+      (key) => `${key}="${layoutProps[key]}"`
+    );
     source.prepend(`<template>
-<${layout.name} ref="layout" ${props.join(' ')} >
+<${layout.name} ref="layout" ${props.join(" ")} >
 ${templates.join("\n")}
 </${layout.name}>
 </template>`);
