@@ -1,5 +1,6 @@
 export interface LayoutsOptions {
   /**
+   * Default layout name
    * @default "default"
    */
   layout: string;
@@ -24,19 +25,33 @@ export interface PagesOptions {
 }
 
 export interface Options {
+  /**
+   * Layout options
+   */
   layouts: LayoutsOptions;
+  /**
+   * Pages options
+   */
   pages: PagesOptions;
+  /**
+   * Layout components prefix
+   * @default "layout"
+   */
+  prefix: string;
+  /**
+   * Generate virtual module
+   * @default true
+   */
+  useVirtualModule: boolean;
 }
 
-export interface UserOptions {
-  layouts?: Partial<LayoutsOptions>;
-  pages?: Partial<PagesOptions>;
-}
+export interface UserOptions extends Partial<Options> {}
 
 export interface ResolvedOptions extends Options {}
 
 export interface LayoutComponent {
+  pascalName: string;
+  kebabName: string;
   path: string;
-  name: string;
   layout: string;
 }

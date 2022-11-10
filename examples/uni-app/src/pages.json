@@ -1,0 +1,77 @@
+{
+  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/index",
+      "style": {
+        "navigationBarTitleText": "index"
+      }
+    },
+    {
+      "path": "pages/balabala",
+      "style": {
+        "navigationBarTitleText": "balabala"
+      }
+    },
+    {
+      "path": "pages/disabled",
+      "style": {
+        "navigationBarTitleText": "disabled"
+      }
+    },
+    {
+      "path": "pages/events",
+      "style": {
+        "navigationBarTitleText": "events"
+      }
+    },
+    {
+      "path": "pages/instance",
+      "style": {
+        "navigationBarTitleText": "instance"
+      }
+    },
+    {
+      "path": "pages/namedSlots",
+      "style": {
+        "navigationBarTitleText": "namedSlots"
+      }
+    },
+    {
+      "path": "pages/nestingLayout",
+      "style": {
+        "navigationBarTitleText": "nestingLayout"
+      }
+    },
+    {
+      "path": "pages/props",
+      "style": {
+        "navigationBarTitleText": "props"
+      }
+    },
+    {
+      "path": "pages/propsVbind",
+      "style": {
+        "navigationBarTitleText": "propsVbind"
+      }
+    },
+    {
+      "path": "pages/scopedSlots",
+      "style": {
+        "navigationBarTitleText": "scopedSlots"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "vite plugin slots layouts",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^layout-the-nesting-layout": "@/layouts/the/nesting/layout.vue",
+      "^layout-(.*)": "@/layouts/$1.vue"
+    }
+  }
+}

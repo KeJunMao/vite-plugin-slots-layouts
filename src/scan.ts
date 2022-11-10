@@ -1,15 +1,17 @@
-import { LayoutComponent, LayoutsOptions } from "./types";
+import { LayoutComponent, LayoutsOptions, ResolvedOptions } from "./types";
 import fg from "fast-glob";
 import { basename, dirname, extname, join, relative, resolve } from "path";
 import { pascalCase, splitByCase, camelCase } from "scule";
 import { logger } from "./utils";
 import { blue, green, red } from "colorette";
 import { normalizePath } from "vite";
+import { hyphenate } from "@vue/shared";
 
 export const scanLayouts = async (
-  layoutsOptions: LayoutsOptions,
+  options: ResolvedOptions,
   cwd = process.cwd()
 ) => {
+  const layoutsOptions = options.layouts;
   logger.debug(`Scan layouts dirs: ${blue(`${layoutsOptions.dirs}`)}`);
   const layouts: LayoutComponent[] = [];
 
@@ -25,7 +27,9 @@ export const scanLayouts = async (
       const filePath = join(dir, file);
 
       // dir parts
-      const dirNameParts = splitByCase(normalizePath(relative(dir, dirname(filePath))));
+      const dirNameParts = splitByCase(
+        normalizePath(relative(dir, dirname(filePath)))
+      );
 
       let fileName = basename(filePath, extname(filePath));
       if (fileName.toLowerCase() === "index") {
@@ -44,10 +48,15 @@ export const scanLayouts = async (
         componentNameParts.push(dirNameParts.shift()!);
       }
 
-      const componentName =
+      const prefixParts = splitByCase(options.prefix);
+      let layoutName =
         pascalCase(componentNameParts) + pascalCase(fileNameParts);
+      layoutName = camelCase(layoutName);
 
-      const layoutName = camelCase(componentName);
+      const componentName = pascalCase(prefixParts) + pascalCase(layoutName);
+
+      const pascalName = pascalCase(componentName).replace(/["']/g, "");
+      const kebabName = hyphenate(componentName);
       const isExistsLayout = layouts.find((l) => l.layout === layoutName);
       if (isExistsLayout) {
         logger.warn(
@@ -58,14 +67,13 @@ export const scanLayouts = async (
         continue;
       }
       logger.debug(
-        `Found ${blue(`<${componentName} />`)}, append ${blue(
-          layoutName
-        )} layout`
+        `Found ${blue(`<${kebabName} />`)}, append ${blue(layoutName)} layout`
       );
-      const layout = {
-        name: componentName + "Layout",
+      const layout: LayoutComponent = {
+        pascalName,
+        kebabName,
         path: filePath,
-        layout: camelCase(componentName),
+        layout: layoutName,
       };
       logger.debug(layout);
       layouts.push(layout);

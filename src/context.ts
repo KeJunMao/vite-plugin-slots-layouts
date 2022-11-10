@@ -9,25 +9,34 @@ import { parse as JSONParse } from "jsonc-parser";
 export class Context {
   options: ResolvedOptions;
   config!: ResolvedConfig;
-  layouts!: LayoutComponent[];
+  layouts: LayoutComponent[] = [];
 
   constructor(userOptions: UserOptions) {
     this.options = resolveOptions(userOptions);
+    logger.debug(`Resolve options: `, this.options);
   }
 
   async initLayouts() {
-    this.layouts = await scanLayouts(this.options.layouts, this.config.root);
+    this.layouts = await scanLayouts(this.options, this.config.root);
   }
   async virtualModule() {
     await this.initLayouts();
+    if (!this.options.useVirtualModule) {
+      return ''
+    }
     logger.debug(`Generating virtual module`);
-    const imports = this.layouts.map((v) => {
-      return `import ${v.name} from "${normalizePath(v.path)}"`;
-    });
-    const components = this.layouts.map((v) => {
-      return `app.component("${v.name}", ${v.name})`;
+    let imports: string[] = [];
+    let components: string[] = [];
+    const _exports = this.layouts.map((v) => {
+      imports.push(`import ${v.pascalName} from "${normalizePath(v.path)}"`);
+      components.push(`app.component("${v.kebabName}", ${v.pascalName})`);
+      return `${v.pascalName},`;
     });
     return `${imports.join("\n")}
+
+export const layouts = {
+  ${_exports.join("\n")}
+}
 
 export default {
   install(app) {
@@ -90,11 +99,13 @@ export default {
       logger.warn(`Can not find ${red(layoutName)} layout, ignore`);
       return false;
     }
-    const props = Object.keys(layoutProps).map((key) => `${key}="${layoutProps[key]}"`)
+    const props = Object.keys(layoutProps).map(
+      (key) => `${key}="${layoutProps[key]}"`
+    );
     source.prepend(`<template>
-<${layout.name} ref="layout" ${props.join(' ')} >
+<${layout.kebabName} ref="layout" ${props.join(" ")} >
 ${templates.join("\n")}
-</${layout.name}>
+</${layout.kebabName}>
 </template>`);
     const map = source.generateMap({
       source: id,
