@@ -72,11 +72,11 @@ app.use(layouts);
 内容是 JSON 字符串, 可以使用 Vue 支持的模板语法
 
 ```vue
-<BlogLayout
+<layout-blog
   :isPost="false"
   v-bind="obj"
   @change="handleLayoutChange"
-></BlogLayout>
+></layout-blog>
 ```
 
 ## 原理
@@ -84,10 +84,10 @@ app.use(layouts);
 注册 layout 文件夹的组件
 
 - blog/index.vue
-  - component: `<Blog/>`
+  - component: `<layout-blog/>`
   - layout: `blog`
 - blog/header-and-footer.vue
-  - component: `<BlogHeaderAndFooter/>`
+  - component: `<layout-blog-header-and-footer/>`
   - layout: `blogHeaderAndFooter`
 
 读取页面中的 layout-block
@@ -121,10 +121,10 @@ app.use(layouts);
 
 ```html
 <template>
-  <DefaultLayout>
+  <layout-default>
     <template #default>page</template>
     <template #footer>footer</template>
-  </DefaultLayout>
+  </layout-default>
 </template>
 <script lang="ts" setup>
   ...

@@ -27,10 +27,9 @@ export const scanLayouts = async (
       const filePath = join(dir, file);
 
       // dir parts
-      const dirNameParts = [
-        ...splitByCase(options.LayoutComponentPrefix),
-        ...splitByCase(normalizePath(relative(dir, dirname(filePath)))),
-      ];
+      const dirNameParts = splitByCase(
+        normalizePath(relative(dir, dirname(filePath)))
+      );
 
       let fileName = basename(filePath, extname(filePath));
       if (fileName.toLowerCase() === "index") {
@@ -49,32 +48,32 @@ export const scanLayouts = async (
         componentNameParts.push(dirNameParts.shift()!);
       }
 
-      console.log(dirNameParts, componentNameParts, fileNameParts);
-
-      const componentName =
+      const prefixParts = splitByCase(options.prefix);
+      let layoutName =
         pascalCase(componentNameParts) + pascalCase(fileNameParts);
+      layoutName = camelCase(layoutName);
+
+      const componentName = pascalCase(prefixParts) + pascalCase(layoutName);
 
       const pascalName = pascalCase(componentName).replace(/["']/g, "");
       const kebabName = hyphenate(componentName);
-      const isExistsLayout = layouts.find((l) => l.kebabName === kebabName);
+      const isExistsLayout = layouts.find((l) => l.layout === layoutName);
       if (isExistsLayout) {
         logger.warn(
-          `The ${blue(pascalName)} layout is exists, ignore\nExists:  ${
+          `The ${blue(layoutName)} layout is exists, ignore\nExists:  ${
             isExistsLayout.path
           } ${green("(used)")}\nScanned: ${filePath}`
         );
         continue;
       }
       logger.debug(
-        `Found ${blue(`<${componentName} />`)}, append ${blue(
-          pascalName
-        )} layout`
+        `Found ${blue(`<${kebabName} />`)}, append ${blue(layoutName)} layout`
       );
       const layout: LayoutComponent = {
         pascalName,
         kebabName,
         path: filePath,
-        layout: camelCase(kebabName.replace(options.LayoutComponentPrefix, "")),
+        layout: layoutName,
       };
       logger.debug(layout);
       layouts.push(layout);

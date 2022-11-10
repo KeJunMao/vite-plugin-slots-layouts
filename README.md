@@ -72,11 +72,11 @@ Use layout-block to set the layout configuration of the page
 The content is JSON string, you can use the template syntax supported by Vue.
 
 ```vue
-<BlogLayout
+<layout-blog
   :isPost="false"
   v-bind="obj"
   @change="handleLayoutChange"
-></BlogLayout>
+></layout-blog>
 ```
 
 ## How it works
@@ -84,10 +84,10 @@ The content is JSON string, you can use the template syntax supported by Vue.
 Registration layout dirs components
 
 - blog/index.vue
-  - component: `<Blog/>`
+  - component: `<layout-blog/>`
   - layout: `blog`
 - blog/header-and-footer.vue
-  - component: `<BlogHeaderAndFooter/>`
+  - component: `<layout-blog-header-and-footer/>`
   - layout: `blogHeaderAndFooter`
 
 Read pages layout-block
@@ -121,10 +121,10 @@ After:
 
 ```html
 <template>
-  <DefaultLayout>
+  <layout-default>
     <template #default>page</template>
     <template #footer>footer</template>
-  </DefaultLayout>
+  </layout-default>
 </template>
 <script lang="ts" setup>
   ...

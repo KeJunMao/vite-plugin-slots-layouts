@@ -13,6 +13,7 @@ export class Context {
 
   constructor(userOptions: UserOptions) {
     this.options = resolveOptions(userOptions);
+    logger.debug(`Resolve options: `, this.options);
   }
 
   async initLayouts() {
@@ -20,6 +21,9 @@ export class Context {
   }
   async virtualModule() {
     await this.initLayouts();
+    if (!this.options.useVirtualModule) {
+      return ''
+    }
     logger.debug(`Generating virtual module`);
     let imports: string[] = [];
     let components: string[] = [];

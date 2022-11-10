@@ -5,6 +5,9 @@ import { resolve } from "path";
 
 export const resolveOptions = (userOptions: UserOptions): ResolvedOptions => {
   return {
+    useVirtualModule: true,
+    prefix: "layout",
+    ...userOptions,
     pages: {
       include: ["src/pages/**/*.vue"],
       exclude: [],
@@ -16,7 +19,6 @@ export const resolveOptions = (userOptions: UserOptions): ResolvedOptions => {
       layout: "default",
       ...userOptions.layouts,
     },
-    LayoutComponentPrefix: "layout",
   };
 };
 

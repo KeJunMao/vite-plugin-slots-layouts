@@ -1,5 +1,6 @@
 export interface LayoutsOptions {
   /**
+   * Default layout name
    * @default "default"
    */
   layout: string;
@@ -29,20 +30,22 @@ export interface Options {
    */
   layouts: LayoutsOptions;
   /**
-   * pages options
+   * Pages options
    */
   pages: PagesOptions;
   /**
    * Layout components prefix
    * @default "layout"
    */
-  LayoutComponentPrefix: string;
+  prefix: string;
+  /**
+   * Generate virtual module
+   * @default true
+   */
+  useVirtualModule: boolean;
 }
 
-export interface UserOptions {
-  layouts?: Partial<LayoutsOptions>;
-  pages?: Partial<PagesOptions>;
-}
+export interface UserOptions extends Partial<Options> {}
 
 export interface ResolvedOptions extends Options {}
 
